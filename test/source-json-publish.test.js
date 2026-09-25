@@ -76,3 +76,35 @@ test("publishFile writes pretty JSON and returns counts", async () => {
   assert.equal(JSON.parse(written.content).store.store_id, "beta");
   assert.ok(written.content.endsWith("\n"));
 });
+
+test("publishPush registers an mcp endpoint when configured", async () => {
+  const posts = [];
+  const fetchImpl = async (url, init) => {
+    posts.push({ url: url.toString(), body: init.body ? JSON.parse(init.body) : null });
+    if (url.pathname === "/stores") return { ok: true, json: async () => ({ updated: false }) };
+    return { ok: true, json: async () => ({ products: 1 }) };
+  };
+  const config = { store: { store_id: "acme", name: "Acme" },
+    source: { type: "json", path: "./p.json" },
+    publish: { mode: "push", catalog_base_url: "http://cat.local", shop_domain: "shop.example.com" },
+    mcp: { port: 8080, token: "tok-1", public_base_url: "https://shop.example.com" } };
+  const out = await publishPush({ schema: "aigou/catalog@1", store: { store_id: "acme", name: "Acme" }, products: [] },
+    config, { fetchImpl, register: true });
+  assert.equal(out.registered, true);
+  assert.equal(posts[0].body.endpoint_type, "mcp");
+  assert.equal(posts[0].body.mcp_url, "https://shop.example.com/mcp");
+  assert.equal(posts[0].body.mcp_token, "tok-1");
+});
+
+test("publishPush refuses mcp registration without public_base_url", async () => {
+  const config = { store: { store_id: "acme", name: "Acme" },
+    source: { type: "json", path: "./p.json" },
+    publish: { mode: "push", catalog_base_url: "http://cat.local", shop_domain: "shop.example.com" },
+    mcp: { port: 8080, token: "tok-1", public_base_url: null } };
+  const err = await publishPush({ schema: "aigou/catalog@1", store: { store_id: "acme", name: "Acme" }, products: [] },
+    config,
+    { fetchImpl: async () => { throw new Error("should not register"); }, register: true })
+    .catch((e) => e);
+  assert.ok(err instanceof PublishError);
+  assert.ok(String(err.message).includes("public_base_url"));
+});

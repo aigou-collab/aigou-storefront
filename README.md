@@ -88,6 +88,42 @@ curl -X POST http://127.0.0.1:8000/stores/acme/refresh
 | `publish.catalog_base_url` / `shop_domain` | 目录服务地址 / 你的店域名（push 用） |
 | `publish.path` | 输出文件路径（file 用） |
 
+## 开放 MCP 店面端点（让 agent 可代下单）
+
+目录快照只让 agent「搜得到」；要让 agent 真正下单，再跑一个 MCP 端点：
+
+1. WooCommerce 的 REST key 需要**读写权限**（后台 → 设置 → 高级 → REST API 新建，权限勾 Read/Write；只读 key 会在下单时报 403）。
+2. 配置里加 `mcp` 段：
+
+```json
+{
+  "store": { "store_id": "acme", "name": "Acme 旗舰店" },
+  "source": { "type": "woocommerce", "...": "..." },
+  "publish": { "mode": "push", "...": "..." },
+  "mcp": {
+    "port": 8080,
+    "token": "换成你生成的长随机串",
+    "public_base_url": "https://shop.example.com"
+  }
+}
+```
+
+3. 启动端点（建议用 systemd / pm2 常驻，反代 `/mcp` 到该端口）：
+
+```bash
+aigou-storefront mcp
+```
+
+4. 注册端点信息到目录（下次 sync 一并完成）：
+
+```bash
+aigou-storefront sync --register
+```
+
+之后任何接入 AI购 的 agent 都能通过标准 MCP 工具调用你的店：`search_products`、`get_product`、`create_cart`、`checkout`。订单以 pending 状态落到你的 WooCommerce 后台，收款与发货由你按平时流程处理——你始终是 merchant-of-record。
+
+安全说明：`mcp.token` 会随注册提交给目录服务，用于买方服务调用你的端点；请只通过 https 暴露 `public_base_url`，并定期轮换 token（改配置后重新 `sync --register` 并重启 `mcp`）。
+
 ## 安全说明
 
 - consumer key/secret 只用于读取商品（只读权限即可），且只在你自己的机器与你的商店之间传输；**请勿在 http 明文环境使用**。

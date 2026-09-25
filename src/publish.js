@@ -23,12 +23,21 @@ export async function publishPush(snapshot, config, { fetchImpl, register = fals
   const out = {};
   if (register) {
     const url = new URL("/stores", base);
-    const payload = await postJson(fetchImpl, url, JSON.stringify({
+    const registration = {
       store_id: snapshot.store.store_id,
       name: snapshot.store.name,
       shop_domain: config.publish.shop_domain,
       endpoint_type: "none",
-    }));
+    };
+    if (config.mcp) {
+      if (!config.mcp.public_base_url) {
+        throw new PublishError("mcp.public_base_url is required to register an mcp endpoint");
+      }
+      registration.endpoint_type = "mcp";
+      registration.mcp_url = `${config.mcp.public_base_url}/mcp`;
+      registration.mcp_token = config.mcp.token;
+    }
+    const payload = await postJson(fetchImpl, url, JSON.stringify(registration));
     out.registered = payload.updated !== true;
   }
   const catalogUrl = new URL(`/stores/${encodeURIComponent(snapshot.store.store_id)}/catalog`, base);
