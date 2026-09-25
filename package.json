@@ -1,16 +1,23 @@
 {
   "name": "aigou-storefront",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Publish your store catalog to the AI购 open commerce network (aigou/catalog@1)",
   "type": "module",
-  "bin": { "aigou-storefront": "bin/aigou-storefront.js" },
-  "engines": { "node": ">=18" },
-  "scripts": { "test": "node --test", "prepublishOnly": "node --test" },
+  "bin": {
+    "aigou-storefront": "bin/aigou-storefront.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test",
+    "prepublishOnly": "node --test"
+  },
   "license": "MIT",
   "author": "herin",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aigou-collab/aigou-storefront.git"
+    "url": "git+https://github.com/aigou-collab/aigou-storefront.git"
   },
   "keywords": [
     "aigou",
@@ -21,7 +28,12 @@
     "cli",
     "storefront"
   ],
-  "files": ["bin", "src", "assets", "README.md"],
+  "files": [
+    "bin",
+    "src",
+    "assets",
+    "README.md"
+  ],
   "dependencies": {},
   "devDependencies": {}
 }

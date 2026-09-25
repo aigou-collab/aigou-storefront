@@ -1,6 +1,6 @@
 # aigou-storefront — 一条命令把你的店接入 AI购开放商务网络
 
-<p align="center"><img src="assets/banners/minimal-hex-1500x500.png" alt="aigou-storefront banner" width="750"></p>
+<p align="center"><img src="https://cdn.jsdelivr.net/npm/aigou-storefront@latest/assets/banners/minimal-hex-1500x500.png" alt="aigou-storefront banner" width="750"></p>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/aigou-storefront"><img src="https://img.shields.io/npm/v/aigou-storefront?color=7C3AED" alt="npm version"></a>
