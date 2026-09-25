@@ -66,7 +66,7 @@ export function mapVariation(v, productId) {
            price: Number(v.price), available: v.purchasable !== false && v.in_stock !== false };
 }
 
-function hasValidPrice(p) {
+export function hasValidPrice(p) {
   const raw = typeof p.price === "string" ? p.price.trim() : p.price;
   return raw !== "" && raw !== null && raw !== undefined && Number.isFinite(Number(raw));
 }

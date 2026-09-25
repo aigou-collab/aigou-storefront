@@ -1,5 +1,5 @@
 /** MCP store tools backed by WooCommerce REST v3 + an in-memory cart. */
-import { authUrl, getJson, mapProduct, mapVariation, postJson } from "./source-woocommerce.js";
+import { authUrl, getJson, hasValidPrice, mapProduct, mapVariation, postJson } from "./source-woocommerce.js";
 
 const MAX_SEARCH = 20;
 
@@ -54,7 +54,8 @@ export function buildStoreTools(config, { fetchImpl, randomId }) {
         url.searchParams.set("per_page", String(MAX_SEARCH));
         url.searchParams.set("status", "publish");
         const batch = await getJson(fetchImpl, url);
-        const results = batch.map(mapProduct)
+        const results = batch.filter(hasValidPrice)  // empty price must not become 0
+          .map(mapProduct)
           .filter((p) => args.max_price === undefined || p.price_min <= args.max_price)
           .slice(0, limit)
           .map((p) => ({ product_id: p.product_id, title: p.title,

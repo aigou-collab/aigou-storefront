@@ -35,6 +35,17 @@ test("search_products queries woo with search param and maps results", async () 
   assert.equal(new URL(calls[0]).searchParams.get("status"), "publish");
 });
 
+test("search_products skips products without a valid price", async () => {
+  // price "" (e.g. variable product with no default variant price) must not
+  // become price_min 0 in results — same guard as catalog sync
+  const fetchImpl = async () => jsonResponse([wooProduct(1, { price: "" }), wooProduct(2)]);
+  const [search] = buildStoreTools(config, { fetchImpl });
+  const out = await search.handler({ query: "widget" });
+  assert.equal(out.total, 1);
+  assert.deepEqual(out.results.map((r) => r.product_id), ["2"]);
+  assert.equal(out.results[0].price_min, 10);
+});
+
 test("get_product returns ProductDetail shape with variants", async () => {
   const fetchImpl = async (url) => {
     if (url.pathname.endsWith("/products/7")) {
