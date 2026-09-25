@@ -49,3 +49,19 @@ test("loadConfig reads, parses and validates; failures mention the path", () => 
   const broken = { readFileSync: () => "{ not json" };
   assert.throws(() => loadConfig(broken, "cfg.json"), (e) => e instanceof ConfigError);
 });
+
+test("validateConfig accepts an mcp section and defaults public_base_url", () => {
+  const cfg = validateConfig({ store: { store_id: "a", name: "A" },
+    source: { type: "json", path: "./p.json" }, publish: { mode: "file", path: "./o.json" },
+    mcp: { port: 8080, token: "tok" } });
+  assert.deepEqual(cfg.mcp, { port: 8080, token: "tok", public_base_url: null });
+});
+
+test("validateConfig validates mcp port and token types", () => {
+  const base = { store: { store_id: "a", name: "A" },
+    source: { type: "json", path: "./p.json" }, publish: { mode: "file", path: "./o.json" } };
+  assert.throws(() => validateConfig({ ...base, mcp: { port: "8080", token: "t" } }), /mcp\.port/);
+  assert.throws(() => validateConfig({ ...base, mcp: { port: 8080 } }), /mcp\.token/);
+  assert.throws(() => validateConfig({ ...base, mcp: { port: 8080, token: "t",
+    public_base_url: "ftp://x" } }), /mcp\.public_base_url/);
+});

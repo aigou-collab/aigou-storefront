@@ -108,3 +108,23 @@ test("run: json source flows to push publisher with register", async () => {
   assert.equal(posts[1].url.pathname, "/stores/beta/catalog");
   assert.match(logs[0], /pushed 1 products to http:\/\/127\.0\.0\.1:8000 \(registered\)/);
 });
+
+test("parseArgs accepts the mcp command with --config", () => {
+  const args = parseArgs(["mcp", "--config", "/tmp/c.json"]);
+  assert.equal(args.command, "mcp");
+  assert.equal(args.configPath, "/tmp/c.json");
+});
+
+test("run mcp builds tools and hands the config to serveMcp", async () => {
+  const seen = [];
+  const code = await run(["mcp"], {
+    fs: { readFileSync: () => JSON.stringify(
+      { store: { store_id: "a", name: "A" },
+        source: { type: "json", path: "./p.json" },
+        publish: { mode: "file", path: "./o.json" },
+        mcp: { port: 9911, token: "tok" } }) },
+    serveMcp: async (config) => { seen.push(config.mcp); },
+  });
+  assert.equal(code, 0);
+  assert.deepEqual(seen, [{ port: 9911, token: "tok", public_base_url: null }]);
+});

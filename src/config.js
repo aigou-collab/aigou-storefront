@@ -59,10 +59,32 @@ export function validateConfig(raw) {
     throw new ConfigError("publish.path: must be a non-empty string");
   }
 
+  let mcp = null;
+  if (raw.mcp !== undefined) {
+    if (typeof raw.mcp !== "object" || raw.mcp === null || Array.isArray(raw.mcp)) {
+      throw new ConfigError("mcp: must be an object");
+    }
+    const port = Number(raw.mcp.port);
+    if (typeof raw.mcp.port !== "number" || !Number.isInteger(port) || port < 1 || port > 65535) {
+      throw new ConfigError("mcp.port: must be an integer between 1 and 65535");
+    }
+    if (!isNonEmptyString(raw.mcp.token)) {
+      throw new ConfigError("mcp.token: must be a non-empty string");
+    }
+    let public_base_url = null;
+    if (raw.mcp.public_base_url !== undefined && raw.mcp.public_base_url !== null) {
+      if (!isHttpUrl(raw.mcp.public_base_url)) {
+        throw new ConfigError("mcp.public_base_url: must be an http(s) URL");
+      }
+      public_base_url = raw.mcp.public_base_url.replace(/\/+$/, "");
+    }
+    mcp = { port, token: raw.mcp.token, public_base_url };
+  }
+
   return {
     store: { store_id: store.store_id.trim(), name: store.name.trim(),
              currency: isNonEmptyString(store.currency) ? store.currency : "CNY" },
-    source, publish,
+    source, publish, mcp,
   };
 }
 
