@@ -1,6 +1,6 @@
 {
   "name": "aigou-storefront",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Publish your store catalog to the AI购 open commerce network (aigou/catalog@1)",
   "type": "module",
   "bin": { "aigou-storefront": "bin/aigou-storefront.js" },
@@ -10,8 +10,7 @@
   "author": "herin",
   "repository": {
     "type": "git",
-    "url": "http://100.121.137.87:3000/herin/aigou.git",
-    "directory": "storefront"
+    "url": "https://github.com/aigou-collab/aigou-storefront.git"
   },
   "keywords": [
     "aigou",

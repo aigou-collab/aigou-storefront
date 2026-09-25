@@ -2,6 +2,13 @@
 
 <p align="center"><img src="assets/banners/minimal-hex-1500x500.png" alt="aigou-storefront banner" width="750"></p>
 
+<p align="center">
+  <a href="https://www.npmjs.com/package/aigou-storefront"><img src="https://img.shields.io/npm/v/aigou-storefront?color=7C3AED" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/aigou-storefront"><img src="https://img.shields.io/npm/dt/aigou-storefront?color=6366F1" alt="npm downloads"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-EC4899" alt="license MIT"></a>
+  <img src="https://img.shields.io/badge/node-%E2%89%A518-339933" alt="node >= 18">
+</p>
+
 把你的商品目录发布为 `aigou/catalog@1` 快照，推送到 AI购目录服务（或自托管），所有接入网络的购物 agent 都能发现你的商品。零佣金、零平台抽成，商家保持 merchant-of-record。
 
 ## 快速开始（WooCommerce）
@@ -11,8 +18,6 @@
 ```bash
 npm install -g aigou-storefront   # 或直接 npx aigou-storefront
 ```
-
-（包尚未发布到 npm 前，可从本仓库安装：`npm install -g /path/to/aigou/storefront`。）
 
 2. 写配置 `aigou-storefront.config.json`：
 
