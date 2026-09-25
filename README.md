@@ -10,6 +10,8 @@
 npm install -g aigou-storefront   # 或直接 npx aigou-storefront
 ```
 
+（包尚未发布到 npm 前，可从本仓库安装：`npm install -g /path/to/aigou/storefront`。）
+
 2. 写配置 `aigou-storefront.config.json`：
 
 ```json
@@ -52,7 +54,19 @@ aigou-storefront sync --register
 }
 ```
 
-`mode: "file"` 生成可自托管的 `aigou-catalog.json`（上传到你网站任意公开路径，再到目录服务以 `endpoint_type: "catalog_url"` 注册该 URL，目录会自动拉取）。
+`mode: "file"` 生成可自托管的 `aigou-catalog.json`，上传到你网站的任意公开路径后，在目录服务注册并触发拉取：
+
+```bash
+curl -X POST http://127.0.0.1:8000/stores \
+  -H "Content-Type: application/json" \
+  --data-binary @register.json
+# register.json: {"store_id":"acme","name":"Acme 旗舰店",
+#   "shop_domain":"shop.example.com","endpoint_type":"catalog_url",
+#   "catalog_url":"https://shop.example.com/aigou-catalog.json"}
+curl -X POST http://127.0.0.1:8000/stores/acme/refresh
+```
+
+注意：目录服务只在收到 `refresh` 调用时拉取（不会自动轮询，可用 cron 定期调用）；且快照内的 `store.store_id` 必须与注册的 `store_id` 一致，否则拉取被拒绝。
 
 ## 配置参考
 
