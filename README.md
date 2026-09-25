@@ -1,5 +1,7 @@
 # aigou-storefront — 一条命令把你的店接入 AI购开放商务网络
 
+<p align="center"><img src="assets/banners/minimal-hex-1500x500.png" alt="aigou-storefront banner" width="750"></p>
+
 把你的商品目录发布为 `aigou/catalog@1` 快照，推送到 AI购目录服务（或自托管），所有接入网络的购物 agent 都能发现你的商品。零佣金、零平台抽成，商家保持 merchant-of-record。
 
 ## 快速开始（WooCommerce）
@@ -90,3 +92,12 @@ curl -X POST http://127.0.0.1:8000/stores/acme/refresh
 
 v0.1（本版）：WooCommerce + JSON 源 → 快照推送/自托管。
 下一步：MCP 店面端点（search/detail/cart 工具直连，让 agent 可代下单）、微店适配、ACP checkout。
+
+## 品牌资产
+
+`assets/` 下提供可复用的品牌物料（GitHub、npm、社交分享卡片均可直接引用）：
+
+- `assets/banners/minimal-hex-1500x500.png` — README banner（本文顶部）
+- `assets/banners/minimal-hex-1200x630.png` — og-image / 社交分享卡片
+- `assets/logo.svg` / `assets/logo.png` — logo（矢量 / 512px 透明底）
+- `assets/banners/src/` — 各物料的 HTML 源文件，可自行改文案后用 Chrome headless 重导出

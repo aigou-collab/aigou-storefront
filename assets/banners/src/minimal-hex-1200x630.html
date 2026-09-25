@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>og image — minimal hex 1200x630</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap");
+  :root {
+    --primary: #7C3AED; --secondary: #6366F1; --accent: #EC4899;
+    --bg: #FAF5FF; --fg: #0F172A; --muted: #475569;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px; overflow: hidden; position: relative;
+    background: var(--bg);
+    font-family: "Rubik", "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--fg);
+  }
+  .decor { position: absolute; right: -50px; top: 50%; transform: translateY(-50%); }
+  .content {
+    position: absolute; left: 72px; top: 50%; transform: translateY(-50%);
+    max-width: 760px; display: flex; flex-direction: column; gap: 19px;
+  }
+  .lockup { display: flex; align-items: center; gap: 22px; }
+  .lockup svg { width: 92px; height: 92px; }
+  .wordmark { font-size: 54px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .wordmark .brand { color: var(--fg); }
+  .wordmark .suffix { color: var(--primary); font-weight: 500; }
+  .tagline {
+    font-family: "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 21px; font-weight: 600; color: var(--muted); letter-spacing: .8px;
+  }
+  .tagline b { color: var(--primary); font-weight: 700; }
+  .meta {
+    font-family: "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 15px; color: var(--muted); opacity: .85; letter-spacing: .5px;
+  }
+  .meta span + span::before { content: "·"; margin: 0 11px; color: var(--primary); }
+  .cta {
+    display: inline-flex; align-items: center; gap: 11px;
+    background: var(--primary); color: #FFFFFF;
+    font-size: 19px; font-weight: 500; letter-spacing: .5px;
+    padding: 12px 24px; border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.25);
+    width: fit-content;
+  }
+  .cta .arrow { color: #FFFFFF; font-weight: 600; }
+</style>
+</head>
+<body>
+  <!-- decorative hex cluster, bleeding off the right edge -->
+  <div class="decor">
+    <svg width="540" height="540" viewBox="0 0 620 620" fill="none" aria-hidden="true">
+      <polygon points="536,310 460,441 308,441 232,310 308,179 460,179"
+               stroke="#7C3AED" stroke-width="3.5" opacity="0.55"/>
+      <polygon points="396,170 343,262 237,262 184,170 237,78 343,78"
+               stroke="#6366F1" stroke-width="3" opacity="0.4"/>
+      <polygon points="700,120 647,212 541,212 488,120 541,28 647,28"
+               stroke="#7C3AED" stroke-width="2.5" opacity="0.25"/>
+      <circle cx="232" cy="310" r="10" fill="#EC4899"/>
+      <circle cx="460" cy="441" r="7" fill="#7C3AED"/>
+      <circle cx="308" cy="179" r="7" fill="#6366F1"/>
+      <line x1="232" y1="310" x2="308" y2="179" stroke="#EC4899" stroke-width="2.5" opacity="0.5"/>
+      <line x1="232" y1="310" x2="460" y2="441" stroke="#7C3AED" stroke-width="2.5" opacity="0.35"/>
+    </svg>
+  </div>
+
+  <div class="content">
+    <div class="lockup">
+      <svg viewBox="0 0 512 512" aria-hidden="true">
+        <polygon points="429,356 256,456 83,356 83,156 256,56 429,156"
+                 fill="none" stroke="#7C3AED" stroke-width="34" stroke-linejoin="round"/>
+        <g stroke="#7C3AED" stroke-width="14" stroke-linecap="round">
+          <line x1="256" y1="256" x2="256" y2="150"/>
+          <line x1="256" y1="256" x2="349" y2="310"/>
+          <line x1="256" y1="256" x2="163" y2="310"/>
+        </g>
+        <circle cx="256" cy="256" r="30" fill="#EC4899"/>
+        <circle cx="256" cy="150" r="20" fill="#7C3AED"/>
+        <circle cx="349" cy="310" r="20" fill="#7C3AED"/>
+        <circle cx="163" cy="310" r="20" fill="#7C3AED"/>
+      </svg>
+      <div class="wordmark"><span class="brand">aigou</span><span class="suffix">-storefront</span></div>
+    </div>
+    <div class="tagline">一条命令，把你的店接入 <b>AI购开放商务网络</b></div>
+    <div class="cta"><span class="arrow">▸</span> npx aigou-storefront sync</div>
+    <div class="meta"><span>零佣金</span><span>merchant-of-record</span><span>aigou/catalog@1</span></div>
+  </div>
+</body>
+</html>

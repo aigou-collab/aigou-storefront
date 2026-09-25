@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>banner C — minimal type hero</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap");
+  :root {
+    --primary: #7C3AED; --secondary: #6366F1; --accent: #EC4899;
+    --bg: #FAF5FF; --fg: #0F172A; --muted: #475569;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1500px; height: 500px; overflow: hidden; position: relative;
+    background: var(--bg);
+    font-family: "Rubik", "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--fg);
+  }
+  .rule { position: absolute; left: 80px; right: 80px; top: 96px; height: 1.5px; background: #E2D9F5; }
+  .content { position: absolute; left: 80px; right: 80px; bottom: 96px; }
+  .wordmark { font-size: 96px; font-weight: 800; letter-spacing: -2.5px; line-height: 1.02; }
+  .wordmark .brand { color: var(--primary); }
+  .wordmark .suffix { color: var(--fg); font-weight: 500; }
+  .accentbar { width: 132px; height: 10px; background: var(--accent); border-radius: 5px; margin-top: 18px; }
+  .row { display: flex; align-items: flex-end; justify-content: space-between; margin-top: 26px; }
+  .tagline {
+    font-family: "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 24px; font-weight: 600; color: var(--muted); letter-spacing: 1px;
+  }
+  .tagline b { color: var(--fg); font-weight: 700; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--primary); color: #FFFFFF;
+    font-size: 20px; font-weight: 500; letter-spacing: .5px;
+    padding: 13px 26px; border-radius: 10px;
+    box-shadow: 0 6px 14px rgba(124, 58, 237, 0.25);
+  }
+  .cta .arrow { font-weight: 600; }
+  .mark { position: absolute; left: 80px; top: 54px; display: flex; align-items: center; gap: 16px; }
+  .mark svg { width: 34px; height: 34px; }
+  .mark .label {
+    font-size: 16px; font-weight: 600; letter-spacing: 3px; color: var(--primary);
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="mark">
+    <svg viewBox="0 0 512 512" aria-hidden="true">
+      <polygon points="429,356 256,456 83,356 83,156 256,56 429,156"
+               fill="none" stroke="#7C3AED" stroke-width="38" stroke-linejoin="round"/>
+      <circle cx="256" cy="256" r="42" fill="#EC4899"/>
+    </svg>
+    <span class="label">AI购 open commerce</span>
+  </div>
+  <div class="rule"></div>
+  <div class="content">
+    <div class="wordmark"><span class="brand">aigou</span><span class="suffix">-storefront</span></div>
+    <div class="accentbar"></div>
+    <div class="row">
+      <div class="tagline">你的店，<b>所有 agent</b> 的货架 —— 一条命令接入，零佣金</div>
+      <div class="cta"><span class="arrow">▸</span> npx aigou-storefront sync</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>banner B — minimal grid</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap");
+  :root {
+    --primary: #7C3AED; --secondary: #6366F1; --accent: #EC4899;
+    --bg: #FFFFFF; --fg: #0F172A; --muted: #475569; --border: #EFE7FC;
+  }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1500px; height: 500px; overflow: hidden; position: relative;
+    background: var(--bg);
+    font-family: "Rubik", "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: var(--fg);
+  }
+  /* Swiss hairline frame */
+  .frame { position: absolute; inset: 26px; border: 1.5px solid var(--border); border-radius: 14px; }
+  /* dot grids, two corners */
+  .dots { position: absolute; width: 260px; height: 170px; opacity: .55; }
+  .dots.tl { left: 54px; top: 54px;
+    background-image: radial-gradient(#7C3AED 1.7px, transparent 1.7px); background-size: 22px 22px; }
+  .dots.br { right: 54px; bottom: 54px;
+    background-image: radial-gradient(#6366F1 1.7px, transparent 1.7px); background-size: 22px 22px; }
+  .content {
+    position: absolute; inset: 0; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 24px; text-align: center;
+  }
+  .content svg { width: 96px; height: 96px; }
+  .wordmark { font-size: 58px; font-weight: 700; letter-spacing: -1px; line-height: 1; }
+  .wordmark .brand { color: var(--fg); }
+  .wordmark .suffix { color: var(--primary); font-weight: 500; }
+  .tagline {
+    font-family: "Nunito Sans", "PingFang SC", "Microsoft YaHei", sans-serif;
+    font-size: 23px; font-weight: 600; color: var(--muted); letter-spacing: 1.5px;
+  }
+  .tagline b { color: var(--primary); font-weight: 700; }
+  .cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 2px solid var(--primary); color: var(--primary);
+    font-size: 20px; font-weight: 500; letter-spacing: .5px;
+    padding: 12px 26px; border-radius: 10px;
+  }
+  .cta .arrow { font-weight: 600; }
+</style>
+</head>
+<body>
+  <div class="frame"></div>
+  <div class="dots tl"></div>
+  <div class="dots br"></div>
+  <div class="content">
+    <svg viewBox="0 0 512 512" aria-hidden="true">
+      <polygon points="429,356 256,456 83,356 83,156 256,56 429,156"
+               fill="none" stroke="#7C3AED" stroke-width="34" stroke-linejoin="round"/>
+      <g stroke="#7C3AED" stroke-width="14" stroke-linecap="round">
+        <line x1="256" y1="256" x2="256" y2="150"/>
+        <line x1="256" y1="256" x2="349" y2="310"/>
+        <line x1="256" y1="256" x2="163" y2="310"/>
+      </g>
+      <circle cx="256" cy="256" r="30" fill="#EC4899"/>
+      <circle cx="256" cy="150" r="20" fill="#7C3AED"/>
+      <circle cx="349" cy="310" r="20" fill="#7C3AED"/>
+      <circle cx="163" cy="310" r="20" fill="#7C3AED"/>
+    </svg>
+    <div class="wordmark"><span class="brand">aigou</span><span class="suffix">-storefront</span></div>
+    <div class="tagline">让每一个购物 agent 都能发现你的商品 · <b>零佣金</b> · 保持 merchant-of-record</div>
+    <div class="cta"><span class="arrow">▸</span> npx aigou-storefront sync</div>
+  </div>
+</body>
+</html>

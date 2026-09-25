@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="aigou-storefront logo">
+  <!-- hexagon shell = agent container -->
+  <polygon points="429,356 256,456 83,356 83,156 256,56 429,156"
+           fill="none" stroke="#7C3AED" stroke-width="34" stroke-linejoin="round"/>
+  <!-- inner network = commerce graph: center agent node + three store nodes -->
+  <g stroke="#7C3AED" stroke-width="14" stroke-linecap="round">
+    <line x1="256" y1="256" x2="256" y2="150"/>
+    <line x1="256" y1="256" x2="349" y2="310"/>
+    <line x1="256" y1="256" x2="163" y2="310"/>
+  </g>
+  <circle cx="256" cy="256" r="30" fill="#EC4899"/>
+  <circle cx="256" cy="150" r="20" fill="#7C3AED"/>
+  <circle cx="349" cy="310" r="20" fill="#7C3AED"/>
+  <circle cx="163" cy="310" r="20" fill="#7C3AED"/>
+</svg>
