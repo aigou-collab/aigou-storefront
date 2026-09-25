@@ -7,17 +7,38 @@ export class SourceError extends Error {}
 const PRODUCTS_PER_PAGE = 50;
 const MAX_VARIANTS = 50;
 
-function authUrl(base, pathname, source) {
-  const url = new URL(pathname, base);
+export function authUrl(source, pathname) {
+  const url = new URL(pathname, source.base_url);
   url.searchParams.set("consumer_key", source.consumer_key);
   url.searchParams.set("consumer_secret", source.consumer_secret);
   return url;
 }
 
-async function getJson(fetchImpl, url) {
+export async function getJson(fetchImpl, url) {
   let resp;
   try {
-    resp = await fetchImpl(url.toString(), {});
+    resp = await fetchImpl(url, {});
+  } catch (err) {
+    throw new SourceError(`woocommerce ${url.pathname}: ${err.message}`);
+  }
+  if (!resp.ok) {
+    throw new SourceError(`woocommerce ${url.pathname}: HTTP ${resp.status}`);
+  }
+  try {
+    return await resp.json();
+  } catch (err) {
+    throw new SourceError(`woocommerce ${url.pathname}: invalid JSON (${err.message})`);
+  }
+}
+
+export async function postJson(fetchImpl, url, bodyObj) {
+  let resp;
+  try {
+    resp = await fetchImpl(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyObj),
+    });
   } catch (err) {
     throw new SourceError(`woocommerce ${url.pathname}: ${err.message}`);
   }
@@ -36,7 +57,7 @@ function simpleVariant(p) {
            available: p.purchasable !== false && p.in_stock !== false };
 }
 
-function mapVariation(v, productId) {
+export function mapVariation(v, productId) {
   const title = (v.attributes || [])
     .map((a) => (a && typeof a.option === "string" ? a.option.trim() : ""))
     .filter(Boolean)
@@ -50,7 +71,7 @@ function hasValidPrice(p) {
   return raw !== "" && raw !== null && raw !== undefined && Number.isFinite(Number(raw));
 }
 
-function mapProduct(p) {
+export function mapProduct(p) {
   return {
     product_id: String(p.id),
     title: p.name,
@@ -66,7 +87,7 @@ export async function fetchWooCommerceCatalog(config, fetchImpl) {
   let page = 1;
   const products = [];
   for (;;) {
-    const url = authUrl(source.base_url, "/wp-json/wc/v3/products", source);
+    const url = authUrl(source, "/wp-json/wc/v3/products");
     url.searchParams.set("page", String(page));
     url.searchParams.set("per_page", String(PRODUCTS_PER_PAGE));
     url.searchParams.set("status", "publish");
@@ -75,7 +96,7 @@ export async function fetchWooCommerceCatalog(config, fetchImpl) {
       if (!hasValidPrice(p)) continue;
       const item = mapProduct(p);
       if (p.type === "variable") {
-        const vUrl = authUrl(source.base_url, `/wp-json/wc/v3/products/${p.id}/variations`, source);
+        const vUrl = authUrl(source, `/wp-json/wc/v3/products/${p.id}/variations`);
         vUrl.searchParams.set("per_page", "100");
         const variations = await getJson(fetchImpl, vUrl);
         item.variants = variations.slice(0, MAX_VARIANTS).map((v) => mapVariation(v, p.id));
