@@ -1,6 +1,6 @@
 {
   "name": "aigou-storefront",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Publish your store catalog to the AI购 open commerce network (aigou/catalog@1)",
   "type": "module",
   "bin": {

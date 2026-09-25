@@ -131,8 +131,8 @@ aigou-storefront sync --register
 
 ## 路线图
 
-v0.1（本版）：WooCommerce + JSON 源 → 快照推送/自托管。
-下一步：MCP 店面端点（search/detail/cart 工具直连，让 agent 可代下单）、微店适配、ACP checkout。
+v0.2（本版）：WooCommerce + JSON 源 → 快照推送/自托管 + 开放 MCP 店面端点（search/get_product/cart/checkout，可代下单）。
+下一步：微店适配、ACP checkout、信任层（注册凭证门控/DID）。
 
 ## 品牌资产
 
