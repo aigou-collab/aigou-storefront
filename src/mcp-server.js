@@ -23,6 +23,9 @@ function authorized(req, token) {
 }
 
 export async function handleRpc(body, { token, tools }) {
+  if (body === null || typeof body !== "object" || Array.isArray(body)) {
+    return rpcError(body && typeof body === "object" ? body.id ?? null : null, -32600, "invalid request");
+  }
   if (body.method === undefined) return rpcError(body.id ?? null, -32600, "not a request");
   if (typeof body.method === "string" && body.method.startsWith("notifications/")) return null;
   const id = body.id ?? null;
@@ -83,10 +86,16 @@ export function createMcpServer({ token, tools, port = 8080, host = "0.0.0.0" })
         res.end(JSON.stringify(rpcError(null, -32700, "parse error")));
         return;
       }
-      const out = await handleRpc(body, { token, tools });
-      if (out === null) { res.writeHead(202); res.end(); return; }
-      res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify(out));
+      try {
+        const out = await handleRpc(body, { token, tools });
+        if (out === null) { res.writeHead(202); res.end(); return; }
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(out));
+      } catch {
+        const id = body && typeof body === "object" && !Array.isArray(body) ? body.id ?? null : null;
+        res.writeHead(500, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(rpcError(id, -32603, "internal error")));
+      }
     });
   });
   return new Promise((resolve) => {

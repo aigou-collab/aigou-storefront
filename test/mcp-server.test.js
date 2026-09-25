@@ -100,3 +100,23 @@ test("http server: auth, method routing and happy path over a real socket", asyn
   assert.equal(notif.status, 202);
   server.close();
 });
+
+test("http server: null body is a -32600 error, invalid JSON is -32700, process stays alive", async () => {
+  const { server, port } = await createMcpServer({ token: "s3cret", tools, port: 0, host: "127.0.0.1" });
+  const base = `http://127.0.0.1:${port}/mcp`;
+  const auth = { "Content-Type": "application/json", "Authorization": "Bearer s3cret" };
+  const nullBody = await fetch(base, { method: "POST", headers: auth, body: "null" });
+  assert.equal(nullBody.status, 200);
+  const err = await nullBody.json();
+  assert.equal(err.jsonrpc, "2.0");
+  assert.equal(err.id, null);
+  assert.equal(err.error.code, -32600);
+  const badJson = await fetch(base, { method: "POST", headers: auth, body: "{" });
+  assert.equal(badJson.status, 400);
+  assert.equal((await badJson.json()).error.code, -32700);
+  const alive = await fetch(base, { method: "POST", headers: auth,
+    body: JSON.stringify({ jsonrpc: "2.0", id: 10, method: "ping" }) });
+  assert.equal(alive.status, 200);
+  assert.deepEqual((await alive.json()).result, {});
+  server.close();
+});
