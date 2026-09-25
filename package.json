@@ -1,0 +1,12 @@
+{
+  "name": "aigou-storefront",
+  "version": "0.1.0",
+  "description": "Publish your store catalog to the AI购 open commerce network (aigou/catalog@1)",
+  "type": "module",
+  "bin": { "aigou-storefront": "bin/aigou-storefront.js" },
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node --test" },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {}
+}
